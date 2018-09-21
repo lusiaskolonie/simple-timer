@@ -6,28 +6,7 @@
     <style>
 
       @-webkit-keyframes glow {
-        0%   { border: solid 5px #84fbff; }
-        25% { border: solid 5px #84fbff; }
-        50% { border: solid 5px #151444; }
-        90% { border: solid 5px #84fbff; }
-        100% { border: solid 5px #84fbff; ; }
-      }
-      @-moz-keyframes glow {
-        0%   { border: solid 5px #84fbff; }
-        25% { border: solid 5px #84fbff; }
-        50% { border: solid 5px #151444; }
-        90% { border: solid 5px #84fbff; }
-        100% { border: solid 5px #84fbff; }
-      }
-      @-o-keyframes glow {
-        0%   { border: solid 5px #84fbff; }
-        25% { border: solid 5px #84fbff; }
-        50% { border: solid 5px #151444; }
-        90% { border: solid 5px #84fbff; }
-        100% { border: solid 5px #84fbff; }
-      }
-      @keyframes glow {
-        0%   { 
+        0% { 
           border: solid 5px #84fbff; 
           box-shadow: 0 0 100px rgb(0, 204, 255, 1);
         }
@@ -42,9 +21,54 @@
           box-shadow: 0 0 100px rgb(0, 204, 255, 1); 
         }
       }
-
-      
-
+      @-moz-keyframes glow {
+        0% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1);
+        }
+        25% { border: solid 5px #84fbff; }
+        50% { 
+          border: solid 5px #151444; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #84fbff; }
+        100% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1); 
+        }
+      }
+      @-o-keyframes glow {
+        0% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1);
+        }
+        25% { border: solid 5px #84fbff; }
+        50% { 
+          border: solid 5px #151444; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #84fbff; }
+        100% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1); 
+        }
+      }
+      @keyframes glow {
+        0% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1);
+        }
+        25% { border: solid 5px #84fbff; }
+        50% { 
+          border: solid 5px #151444; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #84fbff; }
+        100% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1); 
+        }
+      }
 
 
       /* @-webkit-keyframes bg-animate {
@@ -76,7 +100,7 @@
         display: block;
         background-size: cover;
         background-position: center;
-        background: url(./night-sky-hd-wallpaper.jpg);
+        background: url(https://firebasestorage.googleapis.com/v0/b/timer-12345.appspot.com/o/night-sky-hd-wallpaper.jpg?alt=media&token=86d61c62-fe39-40f6-a4e5-9b5a798b92b1);
       }
 
       .container {
@@ -84,7 +108,6 @@
         display: inline-block;
         width: 500px;
         height: 500px;
-        /* border: solid 10px #ff0084; */
         padding: 5%;
         font-size: 230px;
         box-sizing: border-box;
@@ -92,7 +115,7 @@
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         border-radius: 50%;
         cursor: pointer;
-
+        
         -webkit-animation: glow 2s infinite; /* Safari 4+ */
         -moz-animation:    glow 2s infinite; /* Fx 5+ */
         -o-animation:      glow 2s infinite; /* Opera 12+ */
@@ -100,13 +123,11 @@
         animation-direction: alternate; /* or: normal */
       }
       .timer-number {
-        /* display: inline-block; */
         display: inherit;
         cursor: pointer;
         z-index: 999;
       }
       .number-sec {
-        /* display: inline-block; */
         display: inherit;
         font-size:70px;
       }
@@ -137,7 +158,6 @@
         font-size: 60px;
       }
       .timer-mil {
-        /* display: inline-block; */
         display: inherit;
         font-size:30px;
       }
@@ -145,7 +165,6 @@
     </style>
     <div class="cover-bg">
       <h1>CODE IN THE DARK</h1>
-      <!-- <h2>by THiNKNET</h2> -->
       <div class="container">
         <div class='timer'>
             <div id='timer-start' class="number timer-start show" onclick="countdown()">START</div>
@@ -166,24 +185,25 @@
       const startButton = document.getElementById('timer-start')
       
 
-      function setTimer() {
+      function setTimerStyle() {
         startButton.classList.add('hide')
         startButton.classList.remove('show')
       }
 
       function countdown() {
         sec.innerHTML = '00'
-        setTimer()
+        setTimerStyle()
 
         min.innerHTML = initTime
         let time = initTime
         let second = initSec
         let milli = initMil
-        setInterval(()=>{
 
-          if(milli <= 0) {
+
+        const couter = setInterval(()=>{
+          if (milli <= 0) {
             milli = initMil
-            if(second === 0){
+            if (second === 0){
               time -= 1
               min.innerHTML = time
               second = initSec - 1 
@@ -193,6 +213,11 @@
             sec.innerHTML = second
           } else {
             milli -= 1
+          }
+
+          if (milli == 0 && second == 0 && time == 0) {
+            console.log('stopped')
+            clearInterval(couter)
           }
           mil.innerHTML = milli
         },10)
