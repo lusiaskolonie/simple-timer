@@ -1,10 +1,12 @@
 <html>
   <head>
     <title>Timer</title>
+    <script src="./moment.min.js"></script>
+    <script src="./countdown.min.js"></script>
+    <script src="./moment-countdown.min.js"></script>
   </head>
   <body>
     <style>
-
       @-webkit-keyframes glow {
         0% { 
           border: solid 5px #84fbff; 
@@ -151,10 +153,12 @@
 
       h1,h2 {
         color: #c6cbd8;
+        
         font-family: Arial, Helvetica, sans-serif
       }
 
       h1 {
+        text-shadow: 0 0 100px rgba(0,0,0,1);
         font-size: 60px;
       }
       .timer-mil {
@@ -183,7 +187,18 @@
       const sec = document.getElementById('timer-sec')
       const mil = document.getElementById('timer-mil')
       const startButton = document.getElementById('timer-start')
-      
+
+      function convertMS(ms) {
+        let d, h, m, s
+        s = Math.floor(ms / 1000)
+        m = Math.floor(s / 60)
+        s = s % 60
+        h = Math.floor(m / 60)
+        m = m % 60
+        d = Math.floor(h / 24)
+        h = h % 24
+        return { d: d, h: h, m: m, s: s , ms: ms % 1000 }
+      }
 
       function setTimerStyle() {
         startButton.classList.add('hide')
@@ -191,35 +206,29 @@
       }
 
       function countdown() {
+        const initDate = new Date()
+        const endTime = initDate.getTime() + (initTime * 60 * 1000)
+
         sec.innerHTML = '00'
         setTimerStyle()
 
         min.innerHTML = initTime
+
         let time = initTime
         let second = initSec
         let milli = initMil
 
 
         const couter = setInterval(()=>{
-          if (milli <= 0) {
-            milli = initMil
-            if (second === 0){
-              time -= 1
-              min.innerHTML = time
-              second = initSec - 1 
-            } else {
-              second -= 1
-            }
-            sec.innerHTML = second
-          } else {
-            milli -= 1
-          }
+          const intervalDate = new Date()
+          const currentTime = intervalDate.getTime()
+          const timeDiff = endTime - currentTime
+          const timeRemain = convertMS(timeDiff)
+          min.innerHTML = timeRemain.m
+          sec.innerHTML = timeRemain.s
+          mil.innerHTML = timeRemain.ms
 
-          if (milli == 0 && second == 0 && time == 0) {
-            console.log('stopped')
-            clearInterval(couter)
-          }
-          mil.innerHTML = milli
+          
         },10)
       }
     </script>
