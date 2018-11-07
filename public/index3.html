@@ -1,0 +1,319 @@
+<html>
+  <head>
+    <title>Timer</title>
+  </head>
+  <body>
+    <style>
+      @-webkit-keyframes glow {
+        0% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1);
+        }
+        25% { border: solid 5px #84fbff; }
+        50% { 
+          border: solid 5px #151444; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #84fbff; }
+        100% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1); 
+        }
+      }
+      @-moz-keyframes glow {
+        0% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1);
+        }
+        25% { border: solid 5px #84fbff; }
+        50% { 
+          border: solid 5px #151444; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #84fbff; }
+        100% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1); 
+        }
+      }
+      @-o-keyframes glow {
+        0% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1);
+        }
+        25% { border: solid 5px #84fbff; }
+        50% { 
+          border: solid 5px #151444; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #84fbff; }
+        100% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1); 
+        }
+      }
+      @keyframes glow {
+        0% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1);
+        }
+        25% { border: solid 5px #84fbff; }
+        50% { 
+          border: solid 5px #151444; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #84fbff; }
+        100% { 
+          border: solid 5px #84fbff; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 1); 
+        }
+      }
+
+
+      @-webkit-keyframes glow-red {
+        0% { 
+          border: solid 5px #ff0000; 
+          box-shadow: 0 0 100px rgb(255, 0, 0);
+        }
+        25% { border: solid 5px #ff0000; }
+        50% { 
+          border: solid 5px #850000; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #ff0000; }
+        100% { 
+          border: solid 5px #ff0000; 
+          box-shadow: 0 0 100px rgb(255, 0, 0); 
+        }
+      }
+      @-moz-keyframes glow-red {
+        0% { 
+          border: solid 5px #ff0000; 
+          box-shadow: 0 0 100px rgb(255, 0, 0);
+        }
+        25% { border: solid 5px #ff0000; }
+        50% { 
+          border: solid 5px #850000; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #ff0000; }
+        100% { 
+          border: solid 5px #ff0000; 
+          box-shadow: 0 0 100px rgb(255, 0, 0); 
+        }
+      }
+      @-o-keyframes glow-red {
+        0% { 
+          border: solid 5px #ff0000; 
+          box-shadow: 0 0 100px rgb(255, 0, 0);
+        }
+        25% { border: solid 5px #ff0000; }
+        50% { 
+          border: solid 5px #850000; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #ff0000; }
+        100% { 
+          border: solid 5px #ff0000; 
+          box-shadow: 0 0 100px rgb(255, 0, 0); 
+        }
+      }
+      @keyframes glow-red {
+        0% { 
+          border: solid 5px #ff0000; 
+          box-shadow: 0 0 100px rgb(255, 0, 0);
+        }
+        25% { border: solid 5px #ff0000; }
+        50% { 
+          border: solid 5px #850000; 
+          box-shadow: 0 0 100px rgb(0, 204, 255, 0);
+        }
+        90% { border: solid 5px #ff0000; }
+        100% { 
+          border: solid 5px #ff0000; 
+          box-shadow: 0 0 100px rgb(255, 0, 0); 
+        }
+      }
+
+      html,body {
+        width: 100%;
+        background: #000;
+        margin: 0;
+      }
+      .cover-bg {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        padding-top: 20px;
+        display: block;
+        background-size: cover;
+        background-position: center;
+        background: url(https://firebasestorage.googleapis.com/v0/b/timer-12345.appspot.com/o/night-sky-hd-wallpaper.jpg?alt=media&token=86d61c62-fe39-40f6-a4e5-9b5a798b92b1);
+      }
+
+      .container {
+        margin: 30px;
+        display: inline-block;
+        width: 500px;
+        height: 500px;
+        padding: 5%;
+        font-size: 230px;
+        box-sizing: border-box;
+        color: #fff;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .glow-fx {
+        -webkit-animation: glow 2s infinite; /* Safari 4+ */
+        -moz-animation:    glow 2s infinite; /* Fx 5+ */
+        -o-animation:      glow 2s infinite; /* Opera 12+ */
+        animation:         glow 2s infinite; /* IE 10+, Fx 29+ */
+        animation-direction: alternate; /* or: normal */
+      }
+
+      .glow-fx-red {
+        -webkit-animation: glow-red 2s infinite; /* Safari 4+ */
+        -moz-animation:    glow-red 2s infinite; /* Fx 5+ */
+        -o-animation:      glow-red 2s infinite; /* Opera 12+ */
+        animation:         glow-red 2s infinite; /* IE 10+, Fx 29+ */
+        animation-direction: alternate; /* or: normal */
+      }
+      
+      .timer-number {
+        display: inherit;
+        cursor: pointer;
+        z-index: 999;
+      }
+      .number-sec {
+        display: inherit;
+        font-size:70px;
+      }
+      .timer-start {
+        cursor: pointer;
+        font-size: 120px;
+        margin-top: 100px;
+        z-index: 999;
+        text-shadow: 0 0 20px rgba(100, 100, 255, 1)
+      }
+      .timer-start:hover {
+        text-shadow: 0 0 20px rgba(100, 100, 255, 1)
+      }
+
+      .hide {
+        display: none !important;
+      }
+      .show {
+        display: inline-block !important;
+      }
+
+      h1,h2 {
+        color: #c6cbd8;
+        
+        font-family: Arial, Helvetica, sans-serif
+      }
+
+      h1 {
+        text-shadow: 0 0 100px rgba(0,0,0,1);
+        font-size: 60px;
+      }
+      .timer-mil {
+        display: inline-block;
+        font-size:30px;
+      }
+
+    </style>
+    <div class="cover-bg">
+      <h1>CODE IN THE DARK</h1>
+      <div id="container" class="container glow-fx">
+        <div class='timer'>
+            <div id='timer-start' class="number timer-start show" onclick="countdown()">START</div>
+            <span id='timer-number' class="number"></span>
+            <span id='timer-sec' class="number-sec"></span>
+            <span id="timer-mil" class="timer-mil"></span>
+        </div>
+      </div>
+    </div>
+    <script>
+      const initTime = 15
+      const initSec = 60
+      const initMil = 100
+
+      const min = document.getElementById('timer-number')
+      const sec = document.getElementById('timer-sec')
+      const mil = document.getElementById('timer-mil')
+      const startButton = document.getElementById('timer-start')
+      const containerEl = document.getElementById('container')
+
+      function convertMS(ms) {
+        let d, h, m, s
+        s = Math.floor(ms / 1000)
+        m = Math.floor(s / 60)
+        s = s % 60
+        h = Math.floor(m / 60)
+        m = m % 60
+        d = Math.floor(h / 24)
+        h = h % 24
+        return { d: d, h: h, m: m, s: s , ms: ms % 1000 }
+      }
+
+      function setTimerStyle() {
+        startButton.classList.add('hide')
+        startButton.classList.remove('show')
+      }
+
+      function countdown() {
+
+        const initDate = new Date()
+        const endTime = initDate.getTime() + (initTime * 60 * 1000)
+
+        sec.innerHTML = '00'
+        setTimerStyle()
+
+        min.classList.remove('hide')
+
+        sec.classList.remove('hide')
+
+        mil.classList.remove('hide')
+
+        min.innerHTML = initTime
+
+        let time = initTime
+        let second = initSec
+        let milli = initMil
+
+        const couter = setInterval(()=>{
+          const intervalDate = new Date()
+          const currentTime = intervalDate.getTime()
+          const timeDiff = endTime - currentTime
+          const timeRemain = convertMS(timeDiff)
+          
+          console.log(timeDiff)
+          if (timeDiff <= 0) {
+            clearInterval(couter)
+            containerEl.classList.remove('glow-fx')
+            containerEl.classList.add('glow-fx-red')
+
+            min.classList.add('hide')
+            min.classList.remove('show')
+
+            sec.classList.add('hide')
+            sec.classList.remove('show')
+
+            mil.classList.add('hide')
+            mil.classList.remove('show')
+            
+            startButton.classList.add('show')
+            startButton.classList.remove('hide')
+            startButton.innerHTML = 'Stop!'
+          } else {
+            min.innerHTML = timeRemain.m
+            sec.innerHTML = timeRemain.s
+            mil.innerHTML = timeRemain.ms
+          }
+        },10)
+      }
+    </script>
+  </body>
+</html>
