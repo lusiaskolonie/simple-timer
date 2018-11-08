@@ -1,47 +1,62 @@
 <html>
  <head>
   <script>
-    const calcBusinessDays = (dDate1, dDate2) => { // input given as Date objects
+    const calcBusinessDays = (dDate1, dDate2, ignoreDates) => { // input given as Date objects
       var iWeeks, iDateDiff, iAdjust = 0;
       if (dDate2 < dDate1) return -1; // error code if dates transposed
       var iWeekday1 = dDate1.getDay(); // day of week
       var iWeekday2 = dDate2.getDay();
+      
       iWeekday1 = (iWeekday1 == 0) ? 7 : iWeekday1; // change Sunday from 0 to 7
       iWeekday2 = (iWeekday2 == 0) ? 7 : iWeekday2;
-      if ((iWeekday1 > 5) && (iWeekday2 > 5)) iAdjust = 1; // adjustment if both days on weekend
-      iWeekday1 = (iWeekday1 > 5) ? 5 : iWeekday1; // only count weekdays
+
+      if ((iWeekday1 > 5) && (iWeekday2 > 5)) 
+        iAdjust = 1; // adjustment if both days on weekend
+
+      iWeekday1 = (iWeekday1 > 5) ? 0 : iWeekday1; // only count weekdays
       iWeekday2 = (iWeekday2 > 5) ? 5 : iWeekday2;
   
       // calculate differnece in weeks (1000mS * 60sec * 60min * 24hrs * 7 days = 604800000)
       iWeeks = Math.floor((dDate2.getTime() - dDate1.getTime()) / 604800000)
-  
+      
       if (iWeekday1 <= iWeekday2) {
-      iDateDiff = (iWeeks * 5) + (iWeekday2 - iWeekday1)
+        iDateDiff = (iWeeks * 5) + (iWeekday2 - iWeekday1)
       } else {
-      iDateDiff = ((iWeeks + 1) * 5) - (iWeekday1 - iWeekday2)
+        iDateDiff = ((iWeeks + 1) * 5) - (iWeekday1 - iWeekday2)
       }
-  
+
+      iAdjust += ignoreDates.reduce((skipCount, ignoreDate) => {
+        return skipCount += (ignoreDate.getTime() > dDate1.getTime() && ignoreDate.getTime() <= dDate2.getTime()) ? 1 : 0
+      }, 0)
       iDateDiff -= iAdjust // take into account both days on weekend
-  
+
       return (iDateDiff); // add 1 because dates are inclusive
     }
 
-    const calcTimeToday = () => {
+    const calcTimeToday = (endDate) => {
       const today = new Date()
-      const tomorrow = new Date()
-      tomorrow.setDate(today.getDate() + 1);
-      tomorrow.setHours(0);
-      tomorrow.setMinutes(0);
-      tomorrow.setSeconds(0);
+      let hh = 0
+      let mm = 0
+      let ss = 0
 
-      const diff = tomorrow.getTime() - today.getTime()
-      var msec = diff;
-      var hh = Math.floor(msec / 1000 / 60 / 60);
-      msec -= hh * 1000 * 60 * 60;
-      var mm = Math.floor(msec / 1000 / 60);
-      msec -= mm * 1000 * 60;
-      var ss = Math.floor(msec / 1000);
-      msec -= ss * 1000;
+      if (endDate.getTime() < today.getTime()) {
+        console.info('Countdown terminated')
+      } else if (today.getDay() != 0 && today.getDay() != 6) {
+        const tomorrow = new Date()
+        tomorrow.setDate(today.getDate() + 1);
+        tomorrow.setHours(0);
+        tomorrow.setMinutes(0);
+        tomorrow.setSeconds(0);
+
+        const diff = tomorrow.getTime() - today.getTime()
+        let msec = diff;
+        hh = Math.floor(msec / 1000 / 60 / 60);
+        msec -= hh * 1000 * 60 * 60;
+        mm = Math.floor(msec / 1000 / 60);
+        msec -= mm * 1000 * 60;
+        ss = Math.floor(msec / 1000);
+        msec -= ss * 1000;
+      }
 
       return {
         hh,
@@ -131,14 +146,23 @@
   </div>
 
   <script>
+
+    const launchDate = new Date("December 14, 2018")
+
+    const ignoreDates = [
+      new Date("December 5, 2018"),
+      new Date("December 10, 2018"),
+    ]
     setInterval(() => {
       document.getElementById("date-string").innerHTML = calcBusinessDays(
         new Date(), // start
-        new Date("December 14, 2018") // end date
+        launchDate, // end date
+        ignoreDates
       )
-      document.getElementById("hours-string").innerHTML = calcTimeToday().hh
-      document.getElementById("mins-string").innerHTML = calcTimeToday().mm
-      document.getElementById("secs-string").innerHTML = calcTimeToday().ss
+      let time = calcTimeToday(launchDate)
+      document.getElementById("hours-string").innerHTML = time.hh
+      document.getElementById("mins-string").innerHTML = time.mm
+      document.getElementById("secs-string").innerHTML = time.ss
     }, 500)
     
   </script>
