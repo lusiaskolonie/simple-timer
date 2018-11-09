@@ -3,7 +3,7 @@
   <script>
     const calcBusinessDays = (dDate1, dDate2, ignoreDates) => { // input given as Date objects
       var iWeeks, iDateDiff, iAdjust = 0;
-      if (dDate2 < dDate1) return -1; // error code if dates transposed
+      if (dDate2 < dDate1) return 0; // error code if dates transposed
       var iWeekday1 = dDate1.getDay(); // day of week
       var iWeekday2 = dDate2.getDay();
       
@@ -153,6 +153,7 @@
       new Date("December 5, 2018"),
       new Date("December 10, 2018"),
     ]
+
     setInterval(() => {
       document.getElementById("date-string").innerHTML = calcBusinessDays(
         new Date(), // start
