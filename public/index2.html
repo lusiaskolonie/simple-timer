@@ -1,0 +1,173 @@
+<html>
+ <head>
+  <script>
+    const calcBusinessDays = (dDate1, dDate2, ignoreDates) => { // input given as Date objects
+      var iWeeks, iDateDiff, iAdjust = 0;
+      if (dDate2 < dDate1) return 0; // error code if dates transposed
+      var iWeekday1 = dDate1.getDay(); // day of week
+      var iWeekday2 = dDate2.getDay();
+      
+      iWeekday1 = (iWeekday1 == 0) ? 7 : iWeekday1; // change Sunday from 0 to 7
+      iWeekday2 = (iWeekday2 == 0) ? 7 : iWeekday2;
+
+      if ((iWeekday1 > 5) && (iWeekday2 > 5)) 
+        iAdjust = 1; // adjustment if both days on weekend
+
+      iWeekday1 = (iWeekday1 > 5) ? 0 : iWeekday1; // only count weekdays
+      iWeekday2 = (iWeekday2 > 5) ? 5 : iWeekday2;
+  
+      // calculate differnece in weeks (1000mS * 60sec * 60min * 24hrs * 7 days = 604800000)
+      iWeeks = Math.floor((dDate2.getTime() - dDate1.getTime()) / 604800000)
+      
+      if (iWeekday1 <= iWeekday2) {
+        iDateDiff = (iWeeks * 5) + (iWeekday2 - iWeekday1)
+      } else {
+        iDateDiff = ((iWeeks + 1) * 5) - (iWeekday1 - iWeekday2)
+      }
+
+      iAdjust += ignoreDates.reduce((skipCount, ignoreDate) => {
+        return skipCount += (ignoreDate.getTime() > dDate1.getTime() && ignoreDate.getTime() <= dDate2.getTime()) ? 1 : 0
+      }, 0)
+      iDateDiff -= iAdjust // take into account both days on weekend
+
+      return (iDateDiff); // add 1 because dates are inclusive
+    }
+
+    const calcTimeToday = (endDate) => {
+      const today = new Date()
+      let hh = 0
+      let mm = 0
+      let ss = 0
+
+      if (endDate.getTime() < today.getTime()) {
+        console.info('Countdown terminated')
+      } else if (today.getDay() != 0 && today.getDay() != 6) {
+        const tomorrow = new Date()
+        tomorrow.setDate(today.getDate() + 1);
+        tomorrow.setHours(0);
+        tomorrow.setMinutes(0);
+        tomorrow.setSeconds(0);
+
+        const diff = tomorrow.getTime() - today.getTime()
+        let msec = diff;
+        hh = Math.floor(msec / 1000 / 60 / 60);
+        msec -= hh * 1000 * 60 * 60;
+        mm = Math.floor(msec / 1000 / 60);
+        msec -= mm * 1000 * 60;
+        ss = Math.floor(msec / 1000);
+        msec -= ss * 1000;
+      }
+
+      return {
+        hh,
+        mm,
+        ss
+      }
+    }
+  </script>
+  
+</head>
+ <body>
+  <style>
+    * {
+      font-family: sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+    }
+    .backdrop {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      padding-top: 20px;
+      display: block;
+      background-size: cover;
+      background-position: center;
+      background: url(https://firebasestorage.googleapis.com/v0/b/timer-12345.appspot.com/o/night-sky-hd-wallpaper.jpg?alt=media&token=86d61c62-fe39-40f6-a4e5-9b5a798b92b1);
+    }
+
+    .time-string, .time-label {
+      color: #fff;
+    }
+
+    .time-string {
+      font-size: 100px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.5);
+      border: solid 1px rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      display: inline-block;
+      padding: 30px;
+      width: 120px;
+      text-shadow: 0 0 30px rgb(0, 204, 255)
+    }
+    .box {
+      display: inline-block;
+    }
+
+    .time-label {
+      margin-top: 10px;
+      font-size: 40px;
+      color: #fff;
+    }
+
+    .ready {
+      color: #fff;
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .sections {
+      margin-top: 140px;
+    }
+
+  </style>
+  <div class="backdrop">
+    <div class="sections">
+      <img src="https://firebasestorage.googleapis.com/v0/b/timer-12345.appspot.com/o/giphy.gif?alt=media&token=2390f8b2-b076-4df1-b5ee-33e55fce4836" alt="rocket" width="100">
+      <div class="ready">LAUNCH IN ..</div>
+    </div>
+    <div class="box">
+      <div id="date-string" class="time-string"></div>
+      <div id="date-label" class="time-label">Days</div>
+    </div>
+    <div class="box">
+      <div id="hours-string" class="time-string"></div>
+      <div id="hours-label" class="time-label">Hrs</div>
+    </div>
+    <div class="box">
+      <div id="mins-string" class="time-string"></div>
+      <div id="mins-label" class="time-label">Mins</div>
+    </div>
+    <div class="box">
+      <div id="secs-string" class="time-string"></div>
+      <div id="secs-label" class="time-label">Secs</div>
+    </div>
+  </div>
+
+  <script>
+
+    const launchDate = new Date("December 14, 2018")
+
+    const ignoreDates = [
+      new Date("December 5, 2018"),
+      new Date("December 10, 2018"),
+    ]
+
+    setInterval(() => {
+      document.getElementById("date-string").innerHTML = calcBusinessDays(
+        new Date(), // start
+        launchDate, // end date
+        ignoreDates
+      )
+      let time = calcTimeToday(launchDate)
+      document.getElementById("hours-string").innerHTML = time.hh
+      document.getElementById("mins-string").innerHTML = time.mm
+      document.getElementById("secs-string").innerHTML = time.ss
+    }, 500)
+    
+  </script>
+ 
+</body>
+ 
+</html>
